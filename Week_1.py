@@ -1,57 +1,42 @@
 import random
-import time
 
-start = time.time()
-choices = ["Rock", 'Paper', 'Scissors']
-choice_converted = [0, 1, 2]
+
+def game_result(comp, pla, roundd):
+    if comp == pla:
+        return ["Tie on Round {}".format(roundd), 0, 0]
+    else:
+        if (comp == 0 and pla == 1) or (comp == 1 and pla == 2) or (
+                comp == 2 and pla == 0):
+            return ["Player won Round {}".format(roundd), 1, 0]
+        else:
+            return ["Computer won Round {}".format(roundd), 0, 1]
+
+
+choices = ["Rock", "Paper", "Scissors"]
 history = {}
 play_round = 1
-(player_point, computer_point) = (0, 0)
 
+while play_round <= 10:
+    try:
+        computer = random.randint(0, 2)
+        player_input = input('your turn choose any one of this [Paper, Rock, Scissors]: ').title()
+        player = choices.index(player_input)
+        out_fun = game_result(computer, player, play_round)
 
-while play_round <= 5:
-    computer = random.choices(choices)[0]
-    player_choice = ["paper", "paper", "paper", "paper", "paper"]
-    player = player_choice[play_round-1].title()
-    result = str()
+        history[play_round] = [choices[computer], player_input, out_fun[0],
+                               history.get(play_round - 1, [0] * 4)[3] + out_fun[1],
+                               history.get(play_round - 1, [0] * 5)[4] + out_fun[2]]
+        play_round += 1
 
-    if computer == player:
-        result = "Tie on Round {} ".format(play_round)
-    else:
-        if (computer == "Rock" and player == "Paper") or (computer == "Paper" and player == "Scissors") or (
-                computer == "Scissors" and player == "Rock"):
-            player_point += 1
-            result = "player won Round {}".format(play_round)
-        elif (computer == "Paper" and player == "Rock") or (computer == "Scissors" and player == "Paper") or (
-                computer == "Rock" and player == "Scissors"):
-            computer_point += 1
-            result = "Computer won Round {}".format(play_round)
-        else:
-            print("Enter the correct input from {}".format(choices))
-            continue
+    except ValueError as ve:
+        print("Enter the input correctly same as [paper, rock, scissors]")
 
-    history[play_round] = [computer, player, result, player_point, computer_point]
-    play_round += 1
-
-if player_point == computer_point:
-    print("Both get equal points : {}, so game becomes tie.".format(player_point, computer_point))
-else:
-    if player_point > computer_point:
-        print(
-            "Player gets {} points. \ncomputer gets {} points. \nWinner is Player".format(player_point, computer_point))
-    else:
-        print("Player gets {} points. \ncomputer gets {} points. \nWinner is Computer".format(player_point,
-                                                                                              computer_point))
-end = time.time() - start
-print(end)
 while True:
     try:
         details = int(input("Enter the round for which you need the information >> "))
-        print("Player choice = {} \nComputer choice = {} \n{}".format(history.get(details)[1], history.get(details)[0], history.get(details)[2]))
+        print("Player choice = {} \nComputer choice = {} \n{}".format(history.get(details)[1], history.get(details)[0],
+                                                                      history.get(details)[2]))
         break
 
-    except ValueError as ve:
-        print("Enter the Number between 1 to {}".format(play_round - 1))
-
     except:
-        print("There is only {} Rounds, please select round between {}".format(play_round - 1, play_round - 1))
+        print("There is only {} Rounds, please select round between 0 and {}".format(play_round - 1, play_round - 1))
