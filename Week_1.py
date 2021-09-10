@@ -1,12 +1,18 @@
 import random
+import time
 
-history = {"choices": ["Rock", 'Paper', 'Scissors']}
+start = time.time()
+choices = ["Rock", 'Paper', 'Scissors']
+choice_converted = [0, 1, 2]
+history = {}
 play_round = 1
 (player_point, computer_point) = (0, 0)
 
-while play_round <= 10:
-    computer = random.choices(history.get("choices"))[0]
-    player = str(input('your turn choose any one of this {}:'.format(history.get("choices")))).title()
+
+while play_round <= 5:
+    computer = random.choices(choices)[0]
+    player_choice = ["paper", "paper", "paper", "paper", "paper"]
+    player = player_choice[play_round-1].title()
     result = str()
 
     if computer == player:
@@ -21,11 +27,10 @@ while play_round <= 10:
             computer_point += 1
             result = "Computer won Round {}".format(play_round)
         else:
-            print("Enter the correct input from {}".format(history.get("choices")))
+            print("Enter the correct input from {}".format(choices))
             continue
 
-    history[play_round] = {"computer_choice": computer, "player_choice": player, "result": result,
-                           "points": "player point : {}, computer point : {}".format(player_point, computer_point)}
+    history[play_round] = [computer, player, result, player_point, computer_point]
     play_round += 1
 
 if player_point == computer_point:
@@ -37,13 +42,12 @@ else:
     else:
         print("Player gets {} points. \ncomputer gets {} points. \nWinner is Computer".format(player_point,
                                                                                               computer_point))
-
+end = time.time() - start
+print(end)
 while True:
     try:
         details = int(input("Enter the round for which you need the information >> "))
-        print("Player choice = {} \nComputer choice = {} \n{}".format(history.get(details).get("player_choice"),
-                                                                      history.get(details).get("computer_choice"),
-                                                                      history.get(details).get("result")))
+        print("Player choice = {} \nComputer choice = {} \n{}".format(history.get(details)[1], history.get(details)[0], history.get(details)[2]))
         break
 
     except ValueError as ve:
