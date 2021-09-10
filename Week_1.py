@@ -4,13 +4,13 @@ history = {"choices": ["Rock", 'Paper', 'Scissors']}
 play_round = 1
 (player_point, computer_point) = (0, 0)
 
-while play_round < 10:
+while play_round <= 10:
     computer = random.choices(history.get("choices"))[0]
-    player = input('your turn choose any one of this {}:'.format(history.get("choices"))).title()
+    player = str(input('your turn choose any one of this {}:'.format(history.get("choices")))).title()
     result = str()
 
     if computer == player:
-        result = "Tie on Round {}.".format(play_round)
+        result = "Tie on Round {} ".format(play_round)
     else:
         if (computer == "Rock" and player == "Paper") or (computer == "Paper" and player == "Scissors") or (
                 computer == "Scissors" and player == "Rock"):
@@ -38,7 +38,16 @@ else:
         print("Player gets {} points. \ncomputer gets {} points. \nWinner is Computer".format(player_point,
                                                                                               computer_point))
 
-details = int(input("Enter the round for which you need the information >> "))
-print("Player choice = {} \nComputer choice = {} \n{}".format(history.get(details).get("player_choice"),
-                                                              history.get(details).get("computer_choice"),
-                                                              history.get(details).get("result")))
+while True:
+    try:
+        details = int(input("Enter the round for which you need the information >> "))
+        print("Player choice = {} \nComputer choice = {} \n{}".format(history.get(details).get("player_choice"),
+                                                                      history.get(details).get("computer_choice"),
+                                                                      history.get(details).get("result")))
+        break
+
+    except ValueError as ve:
+        print("Enter the Number between 1 to {}".format(play_round - 1))
+
+    except:
+        print("There is only {} Rounds, please select round between {}".format(play_round - 1, play_round - 1))
